@@ -8,9 +8,8 @@ def readPoints(fileName):
     with open(fileName, 'r') as file:
         points = file.readlines()
 
-    xs, ys = {}, {}
-
-    # the first line is the number of points,  so remove it
+    # the first line is the number of points
+    numPoints = int(points[0].strip())
     points = points[1:]
 
     # each remaining line is a point with integer x and y coordinates
@@ -19,11 +18,16 @@ def readPoints(fileName):
     xs = [int(point[0]) for point in points]
     ys = [int(point[1]) for point in points]
 
-    # print(xs, ys)
-    return xs, ys
+    # print(numPoints, xs, ys)
+    return numPoints, xs, ys
 
 
 # display given points in a scatter plot
-def displayPoints(xs, ys):
+def displayPoints(xs, ys, solution=None):
     matplotlib.pyplot.scatter(xs, ys)
+
+    if solution:
+        for edge in solution:
+            matplotlib.pyplot.plot([edge[0][0], edge[1][0]], [edge[0][1], edge[1][1]], 'r-')
+
     matplotlib.pyplot.show()
