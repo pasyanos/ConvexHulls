@@ -33,7 +33,6 @@ def bruteForceHull(n, xPts, yPts):
             if valid:
                 ret.append((p, q))
 
-    print(ret)
     return ret
 
 
