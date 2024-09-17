@@ -7,6 +7,7 @@ def bruteForceHull(n, xPts, yPts):
     ret = []
 
     # nested loop to compare all points
+    # O(n^3) time complexity - 3 nested loops going through all points
     for i in range(n):
         for j in range(n):
             # don't compare the same point
@@ -36,13 +37,16 @@ def bruteForceHull(n, xPts, yPts):
     return ret
 
 
-# main entry point for convex hull
+# main entry point for brute-force convex hull generation
 if __name__ == '__main__':
     # take in arguments
     parser = argparse.ArgumentParser()
 
     # require an input file to read from
     parser.add_argument('input', help='Input file to read from', type=str)
+
+    # require an output file to read to
+    parser.add_argument('output', help='Output file to write to', type=str)
 
     # add an optional bool argument to display the points
     parser.add_argument('--display', help='Display the points in a scatter plot', type=bool,

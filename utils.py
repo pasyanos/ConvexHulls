@@ -31,3 +31,20 @@ def displayPoints(xs, ys, solution=None):
             matplotlib.pyplot.plot([edge[0][0], edge[1][0]], [edge[0][1], edge[1][1]], 'r-')
 
     matplotlib.pyplot.show()
+
+
+# write the solution to an output text file
+# it is up to the algorithm calling this function to ensure the points are in
+# the correct counterclockwise order.
+def writeSolution(outFile, numPts, solutionPoints):
+    # open the file to write to
+    with open(outFile, 'w') as file:
+        # write the number of points
+        file.write(str(numPts) + '\n')
+
+        # write each point
+        for point in solutionPoints:
+            file.write(str(point[0]) + ' ' + str(point[1]) + '\n')
+
+    # close the file
+    outFile.close()
