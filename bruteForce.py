@@ -1,6 +1,7 @@
 import argparse
 from utils import readPoints
 from utils import displayPoints
+from utils import writeSolution
 
 
 def bruteForceHull(n, xPts, yPts):
@@ -58,6 +59,8 @@ if __name__ == '__main__':
     numPoints, xs, ys = readPoints(fileName)
 
     solution = bruteForceHull(numPoints, xs, ys)
+
+    writeSolution(args.output, numPoints, solution)
 
     if args.display:
         displayPoints(xs, ys, solution)
