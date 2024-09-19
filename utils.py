@@ -51,9 +51,9 @@ def writeSolution(outFile, solutionPoints):
         numPts = len(solutionPoints)
         file.write(str(numPts) + '\n')
 
-        # write each point to a new line
+        # write each point as two integers separated by a space on a new line
         for point in solutionPoints:
-            file.write(str(point) + '\n')
+            file.write(str(point[0]) + ' ' + str(point[1]) + '\n')
 
     # close the file
     file.close()

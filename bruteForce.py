@@ -18,7 +18,7 @@ def isLeftTurn(p, q, r):
 
 
 def bruteForceHull(n, xPts, yPts):
-    edges = []
+    hullEdges = []
 
     # for all ordered pairs of points (p, q) in the set P x P where p != q
     for i in range(n):
@@ -38,10 +38,10 @@ def bruteForceHull(n, xPts, yPts):
 
                 # if the edge pq is on the convex hull, add it as a pair to the solution
                 if valid:
-                    edges.append((p, q))
+                    hullEdges.append((p, q))
     # from the set of edges in the hull, extract the points in counterclockwise order
     ret = []
-    for edge in edges:
+    for edge in hullEdges:
         p, q = edge
         if p not in ret:
             ret.append(p)
@@ -51,7 +51,7 @@ def bruteForceHull(n, xPts, yPts):
     # sort the points in counterclockwise order
     ret.sort(key=lambda x: (np.arctan2(x[1] - yPts[0], x[0] - xPts[0])))
 
-    return ret, edges
+    return ret, hullEdges
 
 
 # main entry point for brute-force convex hull generation
