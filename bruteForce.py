@@ -1,41 +1,57 @@
 import argparse
+import numpy as np
 from utils import readPoints
 from utils import displayPoints
 from utils import writeSolution
 
 
-def bruteForceHull(n, xPts, yPts):
-    ret = []
+# for the purpose of consistency, count collinear points as left turns
+# so that they will be included in the convex hull
+def isLeftTurn(p, q, r):
+    # use the determinant of the matrix formed by the three points
+    mat = np.array([[1, p[0], p[1]],
+                    [1, q[0], q[1]],
+                    [1, r[0], r[1]]])
 
-    # nested loop to compare all points
-    # O(n^3) time complexity - 3 nested loops going through all points
+    det = np.linalg.det(mat)
+    return det > 0
+
+
+def bruteForceHull(n, xPts, yPts):
+    edges = []
+
+    # for all ordered pairs of points (p, q) in the set P x P where p != q
     for i in range(n):
         for j in range(n):
-            # don't compare the same point
-            if i == j:
-                continue
+            if i != j:
+                p = (xPts[i], yPts[i])
+                q = (xPts[j], yPts[j])
 
-            p = (xPts[i], yPts[i])
-            q = (xPts[j], yPts[j])
+                # iterate through all other points to determine if the line pq is on the convex hull
+                valid = True
+                for k in range(n):
+                    if k != i and k != j:
+                        r = (xPts[k], yPts[k])
+                        if isLeftTurn(p, q, r):
+                            valid = False
+                            break
 
-            # all comparisons valid at start
-            valid = True
+                # if the edge pq is on the convex hull, add it as a pair to the solution
+                if valid:
+                    edges.append((p, q))
+    # from the set of edges in the hull, extract the points in counterclockwise order
+    ret = []
+    for edge in edges:
+        p, q = edge
+        if p not in ret:
+            ret.append(p)
+        if q not in ret:
+            ret.append(q)
 
-            # loop through all other points that are not p and q
-            for k in range(n):
-                if k == i or k == j:
-                    continue
+    # sort the points in counterclockwise order
+    ret.sort(key=lambda x: (np.arctan2(x[1] - yPts[0], x[0] - xPts[0])))
 
-                # if the point is on the right side of the line, it is not valid
-                if (xPts[k] - p[0]) * (q[1] - p[1]) - (yPts[k] - p[1]) * (q[0] - p[0]) > 0:
-                    valid = False
-                    break
-
-            # if the point is valid, add directed edge to the return list
-            if valid:
-                ret.append((p, q))
-
-    return ret
+    return ret, edges
 
 
 # main entry point for brute-force convex hull generation
@@ -54,13 +70,16 @@ if __name__ == '__main__':
                         default=False)
 
     args = parser.parse_args()
-    fileName = args.input
 
+    # read in the points from the input file
+    fileName = args.input
     numPoints, xs, ys = readPoints(fileName)
 
-    solution = bruteForceHull(numPoints, xs, ys)
+    # calculate brute-force convex hull
+    solution, edges = bruteForceHull(numPoints, xs, ys)
 
-    writeSolution(args.output, numPoints, solution)
+    # write the solution to the output file
+    writeSolution(args.output, solution)
 
     if args.display:
-        displayPoints(xs, ys, solution)
+        displayPoints(xs, ys, solution, edges)

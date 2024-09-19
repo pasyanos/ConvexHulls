@@ -23,12 +23,20 @@ def readPoints(fileName):
 
 
 # display given points in a scatter plot
-def displayPoints(xs, ys, solution=None):
+def displayPoints(xs, ys, solutionPoints, solutionEdges):
     matplotlib.pyplot.scatter(xs, ys)
 
-    if solution:
-        for edge in solution:
-            matplotlib.pyplot.plot([edge[0][0], edge[1][0]], [edge[0][1], edge[1][1]], 'r-')
+    # draw solution edges in red
+    for edge in solutionEdges:
+        p, q = edge
+        matplotlib.pyplot.plot([p[0], q[0]], [p[1], q[1]], color='r')
+
+    # draw solution points in red over lines, and label the order
+    index = 1
+    for point in solutionPoints:
+        matplotlib.pyplot.scatter(point[0], point[1], color='r')
+        matplotlib.pyplot.text(point[0], point[1], str(index))
+        index += 1
 
     matplotlib.pyplot.show()
 
@@ -36,16 +44,16 @@ def displayPoints(xs, ys, solution=None):
 # write the solution to an output text file
 # it is up to the algorithm calling this function to ensure the points are in
 # the correct counterclockwise order.
-def writeSolution(outFile, numPts, solutionPoints):
+def writeSolution(outFile, solutionPoints):
     # open the file to write to
     with open(outFile, 'w') as file:
         # write the number of points
+        numPts = len(solutionPoints)
         file.write(str(numPts) + '\n')
 
         # write each point to a new line
         for point in solutionPoints:
-            file.write(str(point[0]) + '\n')
-            file.write(str(point[1]) + '\n')
+            file.write(str(point) + '\n')
 
     # close the file
     file.close()

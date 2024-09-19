@@ -10,6 +10,8 @@ def calculateTurn(p, q, r):
 
 # Jarvis March algorithm
 def jarvisMarch(n, xPts, yPts):
+    ret = []
+
     # step 1: find the bottom most point in O(n) time
     bottomIndex = 0
     for i in range(1, n):
@@ -20,14 +22,14 @@ def jarvisMarch(n, xPts, yPts):
         elif yPts[i] == yPts[bottomIndex] and xPts[i] < xPts[bottomIndex]:
             bottomIndex = i
 
-    print('Bottom:', yPts[bottomIndex])
+    # add the bottom point to the solution
+    ret.append((xPts[bottomIndex], yPts[bottomIndex]))
 
     # step 2: compare this point to all other points
-    hull = []
     p = bottomIndex
     q = 0
 
-    return []
+    return ret
 
 
 if __name__ == '__main__':
