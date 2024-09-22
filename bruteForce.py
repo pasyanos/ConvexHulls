@@ -6,6 +6,7 @@ from utils import displayPoints
 from utils import writeSolution
 
 
+
 def bruteForceHull(n, xPts, yPts):
     hullEdges = []
 
@@ -31,7 +32,8 @@ def bruteForceHull(n, xPts, yPts):
                 # if the edge pq is on the convex hull, add it as a pair to the solution
                 if valid:
                     hullEdges.append((p, q))
-    # from the set of edges in the hull, extract the points in counterclockwise order
+
+    # add all points in solution edges to the solution
     ret = []
     for edge in hullEdges:
         p, q = edge
@@ -40,8 +42,14 @@ def bruteForceHull(n, xPts, yPts):
         if q not in ret:
             ret.append(q)
 
-    # sort the points in counterclockwise order
-    ret.sort(key=lambda x: (np.arctan2(x[1] - yPts[0], x[0] - xPts[0])))
+    # sort in counterclockwise order
+    # solution from https://pavcreations.com/clockwise-and-counterclockwise-sorting-of-coordinates/
+    coords = np.array(ret)
+    cx, cy = coords.mean(axis=0)
+    x, y = coords.T
+    angles = np.arctan2(x-cx, y-cy)
+    indices = np.argsort(-angles)
+    ret = coords[indices]
 
     return ret, hullEdges
 
