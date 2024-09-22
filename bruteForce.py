@@ -1,20 +1,9 @@
 import argparse
 import numpy as np
+from utils import calculateTurnDeterminant
 from utils import readPoints
 from utils import displayPoints
 from utils import writeSolution
-
-
-# for the purpose of consistency, count collinear points as left turns
-# so that they will be included in the convex hull
-def isLeftTurn(p, q, r):
-    # use the determinant of the matrix formed by the three points
-    mat = np.array([[1, p[0], p[1]],
-                    [1, q[0], q[1]],
-                    [1, r[0], r[1]]])
-
-    det = np.linalg.det(mat)
-    return det > 0
 
 
 def bruteForceHull(n, xPts, yPts):
@@ -32,7 +21,10 @@ def bruteForceHull(n, xPts, yPts):
                 for k in range(n):
                     if k != i and k != j:
                         r = (xPts[k], yPts[k])
-                        if isLeftTurn(p, q, r):
+
+                        # use the determinant to determine if the turn is a left turn
+                        # if the turn is left, the edge pq is not on the convex hull
+                        if calculateTurnDeterminant(p, q, r) > 0:
                             valid = False
                             break
 
