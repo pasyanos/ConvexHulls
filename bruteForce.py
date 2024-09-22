@@ -6,7 +6,6 @@ from utils import displayPoints
 from utils import writeSolution
 
 
-
 def bruteForceHull(n, xPts, yPts):
     hullEdges = []
 
@@ -25,7 +24,7 @@ def bruteForceHull(n, xPts, yPts):
 
                         # use the determinant to determine if the turn is a left turn
                         # if the turn is left, the edge pq is not on the convex hull
-                        if calculateTurnDeterminant(p, q, r) > 0:
+                        if calculateTurnDeterminant(p, q, r) >= 0:
                             valid = False
                             break
 
