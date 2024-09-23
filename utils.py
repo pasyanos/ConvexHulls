@@ -4,7 +4,6 @@ import numpy as np
 
 
 # given 3 points, calculate the determinant of the matrix formed by them
-# this is used by both the brute force and Jarvis March algorithms
 def calculateTurnDeterminant(p, q, r):
     # matrix from three points
     mat = np.array([[1, p[0], p[1]],
