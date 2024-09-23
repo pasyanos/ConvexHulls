@@ -1,10 +1,12 @@
 import argparse
+import numpy as np
+from collections import deque
+from datetime import datetime
 from utils import readPoints
 from utils import displayPoints
 from utils import writeSolution
-from collections import deque
 from utils import calculateTurnDeterminant
-import numpy as np
+from utils import calculateRuntime
 
 
 # calculate the polar angle between a point and the horizontal axis of the given pivot point
@@ -68,14 +70,17 @@ if __name__ == '__main__':
     # require an input file to read from
     parser.add_argument('input', help='Input file to read from', type=str)
 
-    # require an output file to read to
-    parser.add_argument('output', help='Output file to write to', type=str)
-
     # add an optional bool argument to display the points
     parser.add_argument('--display', help='Display the points in a scatter plot', type=bool,
                         default=False)
 
+    # add an optional bool argument to print the runtime to console
+    parser.add_argument('--runtime', help='Print the runtime to console', type=bool,
+                        default=False)
+
     args = parser.parse_args()
+
+    startTime = datetime.now()
 
     # read in the points from the input file
     fileName = args.input
@@ -84,8 +89,14 @@ if __name__ == '__main__':
     # calculate brute-force convex hull
     solution = grahamScan(numPoints, xs, ys)
 
+    outFileName = fileName.split('.')[0] + "_out_graham_scan.txt"
     # write the solution to the output file
-    writeSolution(args.output, solution)
+    writeSolution(outFileName, solution)
+
+    endTime = datetime.now()
+
+    if args.runtime:
+        print("Runtime: ", calculateRuntime(startTime, endTime))
 
     if args.display:
         # make edges from the solution points

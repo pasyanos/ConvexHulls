@@ -72,3 +72,8 @@ def writeSolution(outFile, solutionPoints):
 
     # close the file
     file.close()
+
+
+# given a start and end time, calculate runtime
+def calculateRuntime(start, end):
+    return end - start
