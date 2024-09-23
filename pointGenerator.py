@@ -13,19 +13,29 @@ if __name__ == '__main__':
     args = parser.parse_args()
     fileName = args.output
     numPoints = args.numPoints
-    floor = -numPoints//2
-    ceiling = numPoints//2
+    floor = -numPoints
+    ceiling = numPoints
+
+    numPtsGenerated = 0
+    pts = []
+
+    while numPtsGenerated < numPoints:
+        x = random.randint(floor, ceiling)
+        y = random.randint(floor, ceiling)
+
+        # while not strictly necessary, this will prevent duplicate points
+        if (x, y) not in pts:
+            pts.append((x, y))
+            numPtsGenerated += 1
 
     # open an output file to write to
     with open(fileName, 'w') as file:
         # write the number of points to the first line
         file.write(str(numPoints) + '\n')
 
-        # write the points to the file
-        for i in range(numPoints):
-            x = random.randint(floor, ceiling)
-            y = random.randint(floor, ceiling)
-            file.write(str(x) + ' ' + str(y) + '\n')
+        # write each point as two integers separated by a space on a new line
+        for point in pts:
+            file.write(str(point[0]) + ' ' + str(point[1]) + '\n')
 
     # close the file
     file.close()
