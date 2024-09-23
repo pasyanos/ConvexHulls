@@ -27,6 +27,8 @@ if __name__ == '__main__':
         if (x, y) not in pts:
             pts.append((x, y))
             numPtsGenerated += 1
+        # pts.append((x, y))
+        # numPtsGenerated += 1
 
     # open an output file to write to
     with open(fileName, 'w') as file:
