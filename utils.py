@@ -35,7 +35,7 @@ def readPoints(fileName):
 
 
 # display given points in a scatter plot
-def displayPoints(xs, ys, solutionPoints, solutionEdges):
+def displayPoints(n, xs, ys, solutionPoints, solutionEdges, method):
     matplotlib.pyplot.scatter(xs, ys)
 
     # draw solution edges in red
@@ -49,6 +49,9 @@ def displayPoints(xs, ys, solutionPoints, solutionEdges):
         matplotlib.pyplot.scatter(point[0], point[1], color='r')
         matplotlib.pyplot.text(point[0], point[1], str(index))
         index += 1
+
+    # set the title of the plot
+    matplotlib.pyplot.title(str(n) + " Point " + method + " Convex Hull")
 
     matplotlib.pyplot.show()
 

@@ -12,13 +12,16 @@ def polarAngle(point, pivotPt):
     return np.angle(point[0] - pivotPt[0] + 1j * (point[1] - pivotPt[1]))
 
 
+# sort in place using the polarAngle method
 def sortByAngle(pivotPt, points):
     points.sort(key=lambda x: polarAngle(x, pivotPt))
     return points
 
 
+# generate a convex hull using the Graham Scan algorithm
 def grahamScan(n, xPts, yPts):
-    # step 1: find the bottom most point in O(n) time
+    # step 1: find the bottom most point
+    # O(n) time to find the point
     bottomIndex = 0
     for i in range(1, n):
         if yPts[i] < yPts[bottomIndex]:
@@ -29,31 +32,31 @@ def grahamScan(n, xPts, yPts):
 
     bottomPoint = (xPts[bottomIndex], yPts[bottomIndex])
 
-    # sort the points by the angle they make with the bottom point
+    # Step 2a: make a list of the remaining points, excluding the bottom point
+    # O(n) time to make the list
     points = []
     for i in range(n):
         if i != bottomIndex:
             points.append((xPts[i], yPts[i]))
 
+    # Step 2b: sort the points by polar angle
     # O(n log n) time to sort points
     points = sortByAngle(bottomPoint, points)
 
-    # make a stack and initialize it with the bottom point
+    # Step 3a: make a stack and initialize it with the bottom point
     stack = deque()
     stack.append((xPts[bottomIndex], yPts[bottomIndex]))
 
-    # # debug: add all sorted points to the stack
-    # # and add an edge between the bottom point and the first point
-    # for point in points:
-    #     stack.append(point)
-    #     hullEdges.append((bottomPoint, point))
-
+    # Step 3b: iterate through the sorted points, adding them to the stack
+    # then popping points off the stack when a right turn is made
+    # repeat until it is a left turn again
+    # O(n) time to iterate through the remaining points
     for i in range(n - 1):
         while len(stack) > 1 and calculateTurnDeterminant(stack[-2], stack[-1], points[i]) < 0:
             stack.pop()
         stack.append(points[i])
 
-
+    # algorithm is finished; return the final stack
     return stack
 
 
@@ -89,4 +92,4 @@ if __name__ == '__main__':
         edges = [(solution[i], solution[i + 1]) for i in range(len(solution) - 1)]
         # add the last edge from the last point to the first point
         edges.append((solution[-1], solution[0]))
-        displayPoints(xs, ys, solution, edges)
+        displayPoints(numPoints, xs, ys, solution, edges, "Graham Scan")

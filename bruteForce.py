@@ -6,10 +6,13 @@ from utils import displayPoints
 from utils import writeSolution
 
 
+# generate a convex hull using a brute force approach
 def bruteForceHull(n, xPts, yPts):
+    # step 1: initialize an empty solution set
     hullEdges = []
 
-    # for all ordered pairs of points (p, q) in the set P x P where p != q
+    # Step 2: iterate through all ordered pairs of points in the set P x P where p != q
+    # O(n^3) time due to the triple nested loop
     for i in range(n):
         for j in range(n):
             if i != j:
@@ -32,7 +35,8 @@ def bruteForceHull(n, xPts, yPts):
                 if valid:
                     hullEdges.append((p, q))
 
-    # add all points in solution edges to the solution
+    # Unlike Graham Scan, the brute force method finds edges, not points,
+    # so we have to generate the points from the edges
     ret = []
     for edge in hullEdges:
         p, q = edge
@@ -41,8 +45,9 @@ def bruteForceHull(n, xPts, yPts):
         if q not in ret:
             ret.append(q)
 
-    # sort in counterclockwise order
-    # solution from https://pavcreations.com/clockwise-and-counterclockwise-sorting-of-coordinates/
+    # the points are not guaranteed to be in our desired counterclockwise order, so sort them
+    # I found the solution for sorting in counterclockwise order from
+    # https://pavcreations.com/clockwise-and-counterclockwise-sorting-of-coordinates/
     coords = np.array(ret)
     cx, cy = coords.mean(axis=0)
     x, y = coords.T
@@ -81,4 +86,4 @@ if __name__ == '__main__':
     writeSolution(args.output, solution)
 
     if args.display:
-        displayPoints(xs, ys, solution, edges)
+        displayPoints(numPoints, xs, ys, solution, edges, "Brute Force")
