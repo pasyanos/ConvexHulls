@@ -29,7 +29,7 @@ def bruteForceHull(n, xPts, yPts):
 
                         # use the determinant to determine if the turn is a left turn
                         # if the turn is left, the edge pq is not on the convex hull
-                        if calculateTurnDeterminant(p, q, r) >= 0:
+                        if calculateTurnDeterminant(p, q, r) > 0:
                             valid = False
                             break
 
@@ -57,7 +57,7 @@ def bruteForceHull(n, xPts, yPts):
     indices = np.argsort(-angles)
     ret = coords[indices]
 
-    return ret, hullEdges
+    return ret
 
 
 # main entry point for brute-force convex hull generation
@@ -85,7 +85,7 @@ if __name__ == '__main__':
     numPoints, xs, ys = readPoints(fileName)
 
     # calculate brute-force convex hull
-    solution, edges = bruteForceHull(numPoints, xs, ys)
+    solution = bruteForceHull(numPoints, xs, ys)
 
     outFileName = fileName.split('.')[0] + "_out_brute_force.txt"
     # write the solution to the output file
@@ -97,4 +97,8 @@ if __name__ == '__main__':
         print("Runtime: ", calculateRuntime(startTime, endTime))
 
     if args.display:
+        # make edges from the solution points
+        edges = [(solution[i], solution[i + 1]) for i in range(len(solution) - 1)]
+        # add the last edge from the last point to the first point
+        edges.append((solution[-1], solution[0]))
         displayPoints(numPoints, xs, ys, solution, edges, "Brute Force")
