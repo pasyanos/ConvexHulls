@@ -32,6 +32,10 @@ The file will write to a new text file with the name of the input file, plus `_o
 
 So, for example, if the input is in a file called `tenPoints.txt`, and you run the Graham Scan method on that input, the output will be written to `tenPoints_out_graham_scan.txt`.
 
+### Colinear Points
+
+To stay consistent, both the brute force and Graham Scan methods include colinear points when calculating convex hulls.
+
 ## Required Libraries
 
 The following Python libraries are required to run the program. They are also listed in the file `requirements.txt`. Many Python IDEs can detect this file and automatically install the required libraries.
