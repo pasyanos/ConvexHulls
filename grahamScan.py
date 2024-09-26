@@ -95,12 +95,9 @@ if __name__ == '__main__':
 
     endTime = datetime.now()
 
+    # perform optional actions if specified by flags
     if args.runtime:
         print("Runtime: ", calculateRuntime(startTime, endTime))
 
     if args.display:
-        # make edges from the solution points
-        edges = [(solution[i], solution[i + 1]) for i in range(len(solution) - 1)]
-        # add the last edge from the last point to the first point
-        edges.append((solution[-1], solution[0]))
-        displayPoints(numPoints, xs, ys, solution, edges, "Graham Scan")
+        displayPoints(numPoints, xs, ys, solution, "Graham Scan")

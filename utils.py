@@ -35,8 +35,13 @@ def readPoints(fileName):
 
 
 # display given points in a scatter plot
-def displayPoints(n, xs, ys, solutionPoints, solutionEdges, method):
+def displayPoints(n, xs, ys, solutionPoints, method):
     matplotlib.pyplot.scatter(xs, ys)
+
+    # generate edges from the solution points
+    solutionEdges = [(solutionPoints[i], solutionPoints[i + 1]) for i in range(len(solutionPoints) - 1)]
+    # add the last edge from the last point to the first point
+    solutionEdges.append((solutionPoints[-1], solutionPoints[0]))
 
     # draw solution edges in red
     for edge in solutionEdges:
