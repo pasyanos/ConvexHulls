@@ -13,7 +13,7 @@ This project implements two methods for generating convex hulls. Each method has
 
 where [inputFile] is a text file with input for the program. The input file format is discussed in the next section.
 
-There are two additional auxiliary entry points, discussed in the Auxiliary Methods section of this document that are unnecessary to run the main functionality.
+There is an auxiliary entry point, discussed in the Auxiliary Methods section of this document. It is unnecessary to run the main functionality.
 
 ### Input File Format
 
@@ -53,9 +53,6 @@ The file `pointGenerator.py` generates a specified number of random points with 
 `python pointGenerator.py [output file path] [numPts]`
 
 Running `python pointGenerator.py random100.txt 100` will produce a file `random100.txt` with 100 random points.
-
-### Plot Runtimes
-The file `plotRuntimes.py` is just a simple, hardcoded file that I used to generate the runtime graph in my runtime analysis document.
 
 ## References
 
